@@ -22,11 +22,11 @@ TEXT = {
 }
 COLORS = ["#2a78d6", "#eb6834", "#1baf7a"]  # dataviz reference palette, slots 1-3 (validated, light)
 SURF, T1, T2, T3, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#7a7974", "#e4e3df"
-W, H = 880, 470
+W, H = 740, 460
 L, R, TOP, BOT = 64, 24, 118, 92
 PW, PH = W - L - R, H - TOP - BOT
 YMAX = 80
-BW, GAP = 30, 2
+BW, GAP = 26, 2
 FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Noto Sans SC', Helvetica, Arial, sans-serif"
 
 
@@ -75,10 +75,10 @@ def svg(lang):
             out.append(bar(x, v, c, f"{m} · {t['series'][j]}: {v:.1f}%"))
             if j == 1:  # selective direct labels: the FP8 bars (the collapse) only
                 ly = min(y(v) - 7, y(0) - 7)
-                out.append(f'<text x="{x + BW / 2:.1f}" y="{ly:.1f}" font-size="12" font-weight="600" fill="{T1}" '
+                out.append(f'<text x="{x + BW / 2:.1f}" y="{ly:.1f}" font-size="10.5" font-weight="600" fill="{T1}" '
                            f'text-anchor="middle">{v:.1f}%</text>')
         cx = L + gw * i + gw / 2
-        out.append(f'<text x="{cx:.1f}" y="{y(0) + 20:.1f}" font-size="12.5" fill="{T1}" text-anchor="middle">'
+        out.append(f'<text x="{cx:.1f}" y="{y(0) + 20:.1f}" font-size="11.5" fill="{T1}" text-anchor="middle">'
                    f'{html.escape(m)}</text>')
     # base-model brackets under the labels
     for (a, b), name in (((0, 3), t["base"][0]), ((4, 4), t["base"][1])):
