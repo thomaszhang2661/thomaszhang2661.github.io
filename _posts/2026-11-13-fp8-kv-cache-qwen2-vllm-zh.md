@@ -55,7 +55,7 @@ Qwen2 的 key 投影带偏置。到了第 0 层，偏置占了大头：各通道
 
 ### “可 NVIDIA 说是最后一层”
 
-NVIDIA 的 [TensorRT-Edge-LLM 文档](https://nvidia.github.io/TensorRT-Edge-LLM/latest/user_guide/features/FP8KV.html)指出 Qwen2.5-7B-Instruct 用 FP8 KV 会明显掉点，原因是最后一层的数值很大。两件事都对：最后一层 K 的均值几乎和第 0 层一样大（|均值| 240 对 274，中间各层约 12）。但数值大不等于敏感：只量化最后一层，KL 是中位数那一层的 8 倍，第 0 层是 1300 倍；只让最后一层保持 BF16，正确率也救不回来。
+NVIDIA 的 [TensorRT-Edge-LLM 文档](https://nvidia.github.io/TensorRT-Edge-LLM/latest/user_guide/features/FP8KV.html)指出 Qwen2.5-7B-Instruct 用 FP8 KV 会明显掉点，原因是最后一层的数值很大。两件事都对：最后一层 K 的均值几乎和第 0 层一样大（均值的范数 240 对 274，中间各层约 12）。但数值大不等于敏感：只量化最后一层，KL 是中位数那一层的 8 倍，第 0 层是 1300 倍；只让最后一层保持 BF16，正确率也救不回来。
 
 ## 修法
 

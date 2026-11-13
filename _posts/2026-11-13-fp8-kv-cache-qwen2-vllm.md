@@ -70,7 +70,7 @@ Qwen2.5-7B's wikitext perplexity goes from 6.31 to 78.2 with FP8 on every layer,
 
 NVIDIA's [TensorRT-Edge-LLM docs](https://nvidia.github.io/TensorRT-Edge-LLM/latest/user_guide/features/FP8KV.html)
 flag Qwen2.5-7B-Instruct for FP8 KV degradation and point at the last layer's very large values. Both observations
-hold: the last layer's K has a mean almost as large as layer 0's (|mean| 240 vs 274; middle layers ~12). But large
+hold: the last layer's K has a mean almost as large as layer 0's (mean norm 240 vs 274; middle layers ~12). But large
 values are not the same as sensitivity. Quantizing only the last layer gives 8× the median layer's KL, against 1,300×
 for layer 0, and keeping only the last layer in BF16 does not recover accuracy.
 
