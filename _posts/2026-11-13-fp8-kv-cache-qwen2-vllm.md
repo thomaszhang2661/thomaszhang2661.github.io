@@ -2,9 +2,18 @@
 layout: post
 title: "FP8 KV cache can silently break small Qwen2-based reasoning models in vLLM. Here's the one-line check."
 date: 2026-11-13
+description: "In vLLM 0.33 the default FP8 KV cache drops R1-Distill-Qwen-7B from 71% to 0.5% on MATH-500, with no error. The cause is layer 0's key bias; keeping layer 0 in BF16 fixes it."
+image: /assets/fp8_qwen2_en.png
 ---
 
 [中文版](/2026/11/13/fp8-kv-cache-qwen2-vllm-zh/)
+
+**TL;DR**
+- With vLLM's default FP8 KV cache, Qwen2-based models at 7B and below fall apart on long reasoning:
+  R1-Distill-Qwen-7B goes from 71% to 0.5% on MATH-500, with no error or warning.
+- The same R1 distillation on a Llama base is fine (65.6% vs 66.6%). The 14B Qwen model is fine too.
+- The cause is layer 0: Qwen2's key bias makes its keys almost all mean, and FP8's rounding error lands on the small
+  part attention uses. Check and fix with one line: `kv_cache_dtype_skip_layers=["0"]`.
 
 Turn on `kv_cache_dtype="fp8"` in vLLM, run DeepSeek-R1-Distill-Qwen-7B on a math benchmark, and accuracy drops from
 71% to 0.5%. No error, no warning. The model just starts repeating itself:
@@ -26,9 +35,16 @@ vLLM's default (uncalibrated) scales.
 | Qwen2.5-7B-Instruct | 73.5% | 1.5% | 72.0% |
 | DeepSeek-R1-Distill-Qwen-1.5B | 61.0% | 0.0% | 61.0% |
 | DeepSeek-R1-Distill-Qwen-14B | 70.0% | 73.0% | – |
+| DeepSeek-R1-Distill-Llama-8B (all 500 problems) | 66.6% | 65.6% | 66.6% |
+
+{% include fp8_qwen2_en.svg %}
 
 Keeping only the **last** layer in BF16 instead does nothing (R1-Distill-Qwen-7B: 0.0% on 40 problems). The 14B model
 is fine, and so are Qwen2.5-14B and Llama-3.1-8B in my offline perplexity runs.
+
+The cleanest control is DeepSeek-R1-Distill-Llama-8B: the same R1 distillation, on a Llama-3.1 base, which has no key
+bias. FP8 on every layer costs it 1.0 point (paired permutation test p = 0.64, one run over all 500 problems). The
+collapse comes with the Qwen2 base, not with reasoning or with FP8 as such.
 
 ## Check if you're hit
 

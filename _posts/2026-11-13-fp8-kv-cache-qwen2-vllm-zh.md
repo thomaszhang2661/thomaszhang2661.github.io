@@ -2,9 +2,17 @@
 layout: post
 title: "vLLM 的 FP8 KV cache 会让小号 Qwen2 系推理模型悄悄“变傻”，一行配置就能自查"
 date: 2026-11-13
+lang: zh-CN
+description: "vLLM 0.33 默认的 FP8 KV cache 让 R1-Distill-Qwen-7B 在 MATH-500 上从 71% 掉到 0.5%，不报错。原因在第 0 层的 key 偏置，第 0 层保持 BF16 就能修好。"
+image: /assets/fp8_qwen2_zh.png
 ---
 
 [English version](/2026/11/13/fp8-kv-cache-qwen2-vllm/)
+
+**一句话总结**
+- 用 vLLM 默认的 FP8 KV cache，7B 及以下的 Qwen2 系模型做长推理会崩：R1-Distill-Qwen-7B 在 MATH-500 上从 71% 掉到 0.5%，不报错也没有警告。
+- 同样的 R1 蒸馏换成 Llama 底座就没事（65.6% 对 66.6%），14B 的 Qwen 模型也没事。
+- 原因在第 0 层：Qwen2 的 key 偏置让这一层的 K 几乎全是均值，FP8 的舍入误差落在注意力真正用到的那一小部分上。一行配置就能自查和修好：`kv_cache_dtype_skip_layers=["0"]`。
 
 在 vLLM 里打开 `kv_cache_dtype="fp8"`，用 DeepSeek-R1-Distill-Qwen-7B 做数学题，正确率从 71% 掉到 0.5%。不报错，也没有警告，模型只是开始不停地重复：
 
@@ -24,8 +32,13 @@ vLLM 0.33.0，H200，MATH-500 前 200 题，贪心解码，最多生成 4096 个
 | Qwen2.5-7B-Instruct | 73.5% | 1.5% | 72.0% |
 | DeepSeek-R1-Distill-Qwen-1.5B | 61.0% | 0.0% | 61.0% |
 | DeepSeek-R1-Distill-Qwen-14B | 70.0% | 73.0% | – |
+| DeepSeek-R1-Distill-Llama-8B（全部 500 题） | 66.6% | 65.6% | 66.6% |
+
+{% include fp8_qwen2_zh.svg %}
 
 换成只让**最后一层**保持 BF16，完全没用（R1-Distill-Qwen-7B，40 题上 0.0%）。14B 模型没事；我离线测困惑度，Qwen2.5-14B 和 Llama-3.1-8B 也不受影响。
+
+最干净的对照是 DeepSeek-R1-Distill-Llama-8B：同样的 R1 蒸馏，底座换成没有 key 偏置的 Llama-3.1。全部层用 FP8 只差 1.0 个点（配对置换检验 p = 0.64，全部 500 题跑一次）。崩溃跟着 Qwen2 底座走，不是推理模型或 FP8 本身的问题。
 
 ## 自查
 
