@@ -1,0 +1,12 @@
+title: Jian (Thomas) Zhang
+description: Notes on LLM inference, KV-cache quantization and GPU kernels.
+author:
+  name: Jian (Thomas) Zhang
+github_username: thomaszhang2661
+theme: minima
+markdown: kramdown
+kramdown:
+  input: GFM
+plugins:
+  - jekyll-feed
+permalink: /:year/:month/:day/:title/
