@@ -21,3 +21,5 @@ I work on LLM inference: KV-cache quantization, attention kernels on NVIDIA Hopp
 
 - [FP8 KV cache can silently break small Qwen2-based reasoning models in vLLM](/2026/11/13/fp8-kv-cache-qwen2-vllm/)
   ([中文](/2026/11/13/fp8-kv-cache-qwen2-vllm-zh/))
+- [One run is not a result: comparing KV-cache dtypes in vLLM](/2026/11/14/one-run-is-not-a-result/)
+  ([中文](/2026/11/14/one-run-is-not-a-result-zh/))
