@@ -62,7 +62,7 @@ Qwen2 的 key 投影带偏置。到了第 0 层，偏置占了大头：各通道
 
 注意力真正用到的，是 K 里**随 token 变化**的那一小部分。均值对同一个 query 的所有注意力分数加的是同一个数，softmax 会把它抵消掉。可 FP8 的舍入误差是按整个数值的大小算的，于是全落在了那一小部分上。好比站在山顶上量几个人的身高差，手里的尺子一格一百米。
 
-整张量的缩放因子能防止大的数值溢出，但改变不了 E4M3 的相对精度，所以消不掉落在那一小部分上的舍入误差。（这里的数字都用 vLLM 默认的缩放因子，我没有测过标定后的缩放因子。）
+整张量的缩放因子能防止大的数值溢出，但改变不了 E4M3 的相对精度，所以消不掉落在那一小部分上的舍入误差。何况第 0 层根本没有溢出：在 wikitext 上，它最大的 key 值是 203（R1-Distill-Qwen-7B）和 172（Qwen2.5-7B-Instruct），远低于 E4M3 的上限 448。（这里的正确率都用 vLLM 默认的缩放因子，我没有在 vLLM 里跑过标定后的缩放因子。）
 
 而且第 0 层的误差不会只留在第 0 层。只把第 0 层量化成 FP8，最终输出的 KL 是中位数那一层的约 1300 倍（离线，R1-Distill-Qwen-7B，wikitext）。在长长的思维链里，误差一路累积，最后变成胡言乱语。离线测 Qwen2.5-7B 的 wikitext 困惑度：全部 FP8 从 6.31 涨到 78.2，保留第 0 层是 6.59。
 
@@ -74,10 +74,10 @@ NVIDIA 的 [TensorRT-Edge-LLM 文档](https://nvidia.github.io/TensorRT-Edge-LLM
 
 1. **跳过第 0 层**（见上）。简单，现在就能用。
 2. **量化前减掉一个固定的 K 中心。** 在 RoPE 之后给所有 key 减去同一个向量，同一个 query 的所有注意力分数只差一个常数，softmax 的结果不变。用在一段文本上测得的各通道 K 均值，R1-Distill-Qwen-7B 上的 FP8 回到 69.5%（离线模拟量化，提示部分用 BF16；同样设置下 BF16 是 73.5%）。
-3. **直接用 key 的偏置当这个中心。** 阿里的 rtp-llm 已经这么做了（[alibaba/rtp-llm#1583](https://github.com/alibaba/rtp-llm/pull/1583)）：不用标定，不加算子，只作用于带 QKV 偏置的层。vLLM 目前还没有。
+3. **直接用 key 的偏置当这个中心。** 阿里的 rtp-llm 已经这么做了（[alibaba/rtp-llm#1583](https://github.com/alibaba/rtp-llm/pull/1583)）：不用标定，不加算子，只作用于带 QKV 偏置的层。vLLM 里有一个还没合并的 PR（[#59674](https://github.com/vllm-project/vllm/pull/59674)）针对 INT4 cache 走了一条精确的路：缓存前去掉偏置，再在注意力分数里把它随位置变化的那部分加回来。
 
 ## 出处
 
-这个机制不是我发现的。Liu 等人的《Quantization Hurts Reasoning?》（[arXiv 2504.04823](https://arxiv.org/abs/2504.04823)）已经在 4 位 KV cache 上指出，R1-Distill-Qwen-1.5B / 7B 的 K 离群通道来自继承自 Qwen2.5 的 key 偏置，图里画的就是第 0 层。rtp-llm 在自己的引擎里修好了 FP8 的情况。vLLM 官方的 [FP8 KV 文章](https://vllm.ai/blog/2026-04-22-fp8-kvcache)（2026 年 4 月）讲的是 Qwen3 / Qwen3.5 和长上下文的累加精度问题，没有涉及 Qwen2 系列。我补充的是 vLLM 默认 FP8 路径上的实测、第 0 层和最后一层的对比，以及这个一行配置的自查办法。
+这个机制不是我发现的。Liu 等人的《Quantization Hurts Reasoning?》（[arXiv 2504.04823](https://arxiv.org/abs/2504.04823)）已经在 4 位 KV cache 上指出，R1-Distill-Qwen-1.5B / 7B 的 K 离群通道来自继承自 Qwen2.5 的 key 偏置，图里画的就是第 0 层。rtp-llm 在自己的引擎里修好了 FP8 的情况。vLLM 官方的 [FP8 KV 文章](https://vllm.ai/blog/2026-04-22-fp8-kvcache)（2026 年 4 月）讲的是 Qwen3 / Qwen3.5 和长上下文的累加精度问题，没有涉及 Qwen2 系列。在 vLLM 内部，INT4 cache 上的同一个问题已经有人报告（#59671），内核修复在 [#59674](https://github.com/vllm-project/vllm/pull/59674)，启动时的警告在 [#63081](https://github.com/vllm-project/vllm/pull/63081)；#63081 还测到默认缩放因子的 FP8 cache 让 Qwen2.5-7B 和 1.5B 在检索任务上崩溃，并给出 `--kv-cache-dtype-skip-layers 0` 这个修法。我补充的是推理基准上的实测（MATH-500，R1-Distill 系列）、Llama 底座的对照，以及第 0 层和最后一层的对比。
 
 讨论在 [vLLM #41343](https://github.com/vllm-project/vllm/issues/41343)。如果你在别的模型上也遇到过，欢迎告诉我。

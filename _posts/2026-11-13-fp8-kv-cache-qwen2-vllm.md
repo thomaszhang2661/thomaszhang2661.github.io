@@ -75,8 +75,9 @@ the small part that actually matters. Think of measuring height differences betw
 with a ruler marked every hundred meters.
 
 A per-tensor scale can keep large values from saturating, but it does not change E4M3's relative precision, so it
-cannot remove the rounding error on that small token-dependent part. (All numbers here use vLLM's default scales; I
-have not tested calibrated ones.)
+cannot remove the rounding error on that small token-dependent part. And in layer 0 nothing saturates anyway: on
+wikitext its largest key value is 203 (R1-Distill-Qwen-7B) and 172 (Qwen2.5-7B-Instruct), well below E4M3's maximum
+of 448. (All accuracy numbers here use vLLM's default scales; I have not run calibrated scales in vLLM.)
 
 And layer 0's errors don't stay in layer 0. Quantizing only layer 0 to FP8 gives 1,300× the output KL of the median
 layer (offline, R1-Distill-Qwen-7B, wikitext). In a long chain of thought that compounds into nonsense. Offline,
@@ -98,7 +99,9 @@ for layer 0, and keeping only the last layer in BF16 does not recover accuracy.
    on some text, FP8 recovers to 69.5% on R1-Distill-Qwen-7B (offline, fake-quantized FP8 with the prompt in BF16;
    BF16 73.5% in that setup).
 3. **Use the K bias itself as that center.** [alibaba/rtp-llm#1583](https://github.com/alibaba/rtp-llm/pull/1583)
-   does this for FP8: no calibration, no extra kernel, only for layers with a QKV bias. vLLM doesn't have it yet.
+   does this for FP8: no calibration, no extra kernel, only for layers with a QKV bias. In vLLM, an open PR
+   ([#59674](https://github.com/vllm-project/vllm/pull/59674)) takes an exact route for the INT4 cache: it removes the
+   bias before caching and adds its position-dependent contribution back into the attention scores.
 
 ## Credit
 
@@ -106,8 +109,13 @@ The mechanism isn't new. Liu et al., *Quantization Hurts Reasoning?*
 ([arXiv 2504.04823](https://arxiv.org/abs/2504.04823)), traced the extreme K outlier channels in
 R1-Distill-Qwen-1.5B / 7B to the key bias inherited from Qwen2.5, shown for layer 0, for 4-bit KV caches. rtp-llm
 fixed the FP8 case in its engine. vLLM's own [FP8 KV write-up](https://vllm.ai/blog/2026-04-22-fp8-kvcache)
-(April 2026) covers Qwen3 / Qwen3.5 and the long-context accumulation issue, not the Qwen2 family. What I'm adding is
-the FP8 picture in vLLM's default path, the layer-0 vs last-layer measurement, and the one-line check.
+(April 2026) covers Qwen3 / Qwen3.5 and the long-context accumulation issue, not the Qwen2 family. Inside vLLM, the
+same failure was reported for the INT4 cache (#59671), with a kernel fix proposed in
+[#59674](https://github.com/vllm-project/vllm/pull/59674) and a startup warning in
+[#63081](https://github.com/vllm-project/vllm/pull/63081). #63081 also shows the FP8 cache at default scales
+collapsing Qwen2.5-7B and 1.5B on a retrieval task, and names `--kv-cache-dtype-skip-layers 0` as the remedy. What I
+add is the picture on a reasoning benchmark (MATH-500, R1-Distill models), the Llama-base control, and the layer-0 vs
+last-layer measurement.
 
 Discussion is on [vLLM #41343](https://github.com/vllm-project/vllm/issues/41343). If you've seen this on other
 models, I'd like to hear about it.
