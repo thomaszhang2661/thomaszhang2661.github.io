@@ -11,7 +11,7 @@ image: /assets/fp8_qwen2_en.png
 **TL;DR**
 - With vLLM's default FP8 KV cache, Qwen2-based models at 7B and below fall apart on long reasoning:
   R1-Distill-Qwen-7B goes from 71% to 0.5% on MATH-500, with no error or warning.
-- The same R1 distillation on a Llama base is fine (65.6% vs 66.6%). The 14B Qwen model is fine too.
+- The same R1 distillation on a Llama base is fine (67.0% vs 68.4%). The 14B Qwen model is fine too.
 - The cause is layer 0: Qwen2's key bias makes its keys almost all mean, and FP8's rounding error lands on the small
   part attention uses. Check and fix with one line: `kv_cache_dtype_skip_layers=["0"]`.
 
@@ -35,7 +35,7 @@ vLLM's default (uncalibrated) scales.
 | Qwen2.5-7B-Instruct | 73.5% | 1.5% | 72.0% |
 | DeepSeek-R1-Distill-Qwen-1.5B | 61.0% | 0.0% | 61.0% |
 | DeepSeek-R1-Distill-Qwen-14B | 70.0% | 73.0% | – |
-| DeepSeek-R1-Distill-Llama-8B (all 500 problems) | 66.6% | 65.6% | 66.6% |
+| DeepSeek-R1-Distill-Llama-8B (all 500 problems) | 68.4% | 67.0% | 68.8% |
 
 {% include fp8_qwen2_en.svg %}
 
@@ -43,7 +43,7 @@ Keeping only the **last** layer in BF16 instead does nothing (R1-Distill-Qwen-7B
 is fine, and so are Qwen2.5-14B and Llama-3.1-8B in my offline perplexity runs.
 
 The cleanest control is DeepSeek-R1-Distill-Llama-8B: the same R1 distillation, on a Llama-3.1 base, which has no key
-bias. FP8 on every layer costs it 1.0 point (paired permutation test p = 0.64, one run over all 500 problems). The
+bias. FP8 on every layer costs it 1.4 points (paired permutation test p = 0.47, one run over all 500 problems). The
 collapse comes with the Qwen2 base, not with reasoning or with FP8 as such.
 
 ## Check if you're hit
@@ -119,3 +119,5 @@ last-layer measurement.
 
 Discussion is on [vLLM #41343](https://github.com/vllm-project/vllm/issues/41343). If you've seen this on other
 models, I'd like to hear about it.
+
+*Correction (Nov 16, 2026): The first version of this post used R1-Distill-Llama-8B numbers measured with a tokenizer-loading bug ([transformers #45488](https://github.com/huggingface/transformers/issues/45488)) that removed spaces and newlines from the prompts in vLLM. The Llama row, the chart and the numbers in the text now come from a rerun with the correct tokenizer (same setup, all 500 problems, one run): BF16 68.4%, FP8 67.0%, FP8 with layer 0 in BF16 68.8%. The conclusion is unchanged: this model has no key bias and does not collapse under FP8. The Qwen numbers were not affected.*

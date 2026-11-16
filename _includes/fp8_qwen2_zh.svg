@@ -38,10 +38,10 @@
 <text x="520.4" y="132.9" font-size="10.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">73.0%</text>
 <text x="548.4" y="362.0" font-size="11" fill="#7a7974" text-anchor="middle">未测</text>
 <text x="520.4" y="388.0" font-size="11.5" fill="#0b0b0b" text-anchor="middle">R1-Distill-Qwen-14B</text>
-<path d="M609.8,368.0 V163.9 Q609.8,159.9 613.8,159.9 H631.8 Q635.8,159.9 635.8,163.9 V368.0 Z" fill="#2a78d6"><title>R1-Distill-Llama-8B · BF16 KV: 66.6%</title></path>
-<path d="M637.8,368.0 V167.0 Q637.8,163.0 641.8,163.0 H659.8 Q663.8,163.0 663.8,167.0 V368.0 Z" fill="#eb6834"><title>R1-Distill-Llama-8B · FP8 KV: 65.6%</title></path>
-<text x="650.8" y="156.0" font-size="10.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">65.6%</text>
-<path d="M665.8,368.0 V163.9 Q665.8,159.9 669.8,159.9 H687.8 Q691.8,159.9 691.8,163.9 V368.0 Z" fill="#1baf7a"><title>R1-Distill-Llama-8B · FP8，第 0 层用 BF16: 66.6%</title></path>
+<path d="M609.8,368.0 V158.2 Q609.8,154.2 613.8,154.2 H631.8 Q635.8,154.2 635.8,158.2 V368.0 Z" fill="#2a78d6"><title>R1-Distill-Llama-8B · BF16 KV: 68.4%</title></path>
+<path d="M637.8,368.0 V162.6 Q637.8,158.6 641.8,158.6 H659.8 Q663.8,158.6 663.8,162.6 V368.0 Z" fill="#eb6834"><title>R1-Distill-Llama-8B · FP8 KV: 67.0%</title></path>
+<text x="650.8" y="151.6" font-size="10.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">67.0%</text>
+<path d="M665.8,368.0 V157.0 Q665.8,153.0 669.8,153.0 H687.8 Q691.8,153.0 691.8,157.0 V368.0 Z" fill="#1baf7a"><title>R1-Distill-Llama-8B · FP8，第 0 层用 BF16: 68.8%</title></path>
 <text x="650.8" y="388.0" font-size="11.5" fill="#0b0b0b" text-anchor="middle">R1-Distill-Llama-8B</text>
 <path d="M74.0,402.0 v5 H575.6 v-5" fill="none" stroke="#7a7974" stroke-width="1"/>
 <text x="324.8" y="422.0" font-size="12" fill="#52514e" text-anchor="middle">Qwen2 底座</text>
