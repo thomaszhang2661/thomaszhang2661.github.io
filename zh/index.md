@@ -38,7 +38,7 @@ alt_url: /
 ## 教育
 
 <ul class="cv">
-  <li><span class="when">2024 – 2027</span><span class="what"><strong>计算机科学硕士</strong>，美国东北大学</span></li>
+  <li><span class="when">2024 – 2026</span><span class="what"><strong>计算机科学硕士</strong>，美国东北大学</span></li>
   <li><span class="when">2010 – 2018</span><span class="what"><strong>凝聚态物理博士</strong>，中国科学院大学</span></li>
   <li><span class="when">2006 – 2010</span><span class="what"><strong>物理学学士</strong>，兰州大学</span></li>
 </ul>

@@ -38,7 +38,7 @@ In 2026 I interned at ByteDance on an agent platform and at TikTok USDS on LLM a
 ## Education
 
 <ul class="cv">
-  <li><span class="when">2024 – 2027</span><span class="what"><strong>M.S., Computer Science</strong>, Northeastern University</span></li>
+  <li><span class="when">2024 – 2026</span><span class="what"><strong>M.S., Computer Science</strong>, Northeastern University</span></li>
   <li><span class="when">2010 – 2018</span><span class="what"><strong>Ph.D., Condensed Matter Physics</strong>, University of Chinese Academy of Sciences</span></li>
   <li><span class="when">2006 – 2010</span><span class="what"><strong>B.S., Physics</strong>, Lanzhou University</span></li>
 </ul>
