@@ -1,0 +1,8 @@
+en:
+  home: {title: Home, url: /}
+  blog: {title: Blog, url: /blog/}
+  switch: 中文
+zh-CN:
+  home: {title: 首页, url: /zh/}
+  blog: {title: 博客, url: /zh/blog/}
+  switch: English

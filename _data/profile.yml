@@ -1,0 +1,7 @@
+# Links on the home page (both languages). Leave a value empty to hide it.
+photo: ""            # e.g. /assets/photo.jpg (square, at least 320 x 320)
+email: ""            # shown as text with a mailto link
+github: https://github.com/thomaszhang2661
+linkedin: ""         # e.g. https://www.linkedin.com/in/<handle>/
+scholar: ""          # Google Scholar profile URL
+orcid: ""            # e.g. https://orcid.org/0000-0000-0000-0000

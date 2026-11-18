@@ -1,0 +1,19 @@
+{%- comment -%}
+Sets `lang` (en | zh-CN) and `alt_url` (the same page in the other language).
+Pages give `alt_url` in front matter; posts pair by slug: "<slug>" <-> "<slug>-zh".
+{%- endcomment -%}
+{%- assign lang = page.lang | default: "en" -%}
+{%- if lang == "zh-CN" -%}{%- assign home_url = "/zh/" -%}{%- else -%}{%- assign home_url = "/" -%}{%- endif -%}
+{%- assign alt_url = page.alt_url -%}
+{%- if alt_url == nil and page.collection == "posts" -%}
+  {%- if lang == "zh-CN" -%}
+    {%- assign cand = page.url | replace: "-zh/", "/" -%}
+  {%- else -%}
+    {%- assign cand = page.url | append: "#" | replace: "/#", "-zh/" -%}
+  {%- endif -%}
+  {%- assign hit = site.posts | where: "url", cand | first -%}
+  {%- if hit -%}{%- assign alt_url = cand -%}{%- endif -%}
+{%- endif -%}
+{%- if alt_url == nil -%}
+  {%- if lang == "zh-CN" -%}{%- assign alt_url = "/" -%}{%- else -%}{%- assign alt_url = "/zh/" -%}{%- endif -%}
+{%- endif -%}

@@ -1,0 +1,11 @@
+{%- include lang.html -%}
+<footer class="site-footer h-card">
+  <data class="u-url" href="{{ "/" | relative_url }}"></data>
+  <div class="wrapper footer-line">
+    <span class="p-name">{{ site.author | escape }}</span>
+    <span>·</span>
+    <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+    <span>·</span>
+    <a href="{{ "/feed.xml" | relative_url }}">RSS</a>
+  </div>
+</footer>

@@ -1,0 +1,24 @@
+---
+---
+@import "minima";
+
+.profile { display: flex; gap: 24px; align-items: center; margin: 8px 0 28px; }
+.profile-photo { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; flex: none; }
+.profile-name { font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+.profile-tagline { color: #424242; font-size: 1.1rem; margin: 0 0 8px; }
+.profile-links { margin: 0; font-size: 0.95rem; }
+@media (max-width: 600px) { .profile { flex-direction: column; align-items: flex-start; } }
+
+.home h2 { font-size: 1.35rem; margin: 32px 0 12px; padding-bottom: 4px; border-bottom: 1px solid #e8e8e8; }
+.cv { list-style: none; margin-left: 0; }
+.cv li { display: grid; grid-template-columns: 9.5em 1fr; gap: 12px; margin-bottom: 10px; }
+.cv .when { color: #828282; font-size: 0.9rem; padding-top: 2px; }
+.cv .what small { color: #555; display: block; }
+@media (max-width: 600px) { .cv li { grid-template-columns: 1fr; gap: 0; } }
+.pubs li { margin-bottom: 10px; }
+.home .post-list h3 { font-size: 1.05rem; margin: 0; }
+.home .post-list .post-link { font-size: 1.1rem; }
+.home .post-list li { margin-bottom: 14px; }
+.post-desc { color: #555; font-size: 0.92rem; margin: 2px 0 0; }
+.lang-switch { font-weight: 600; }
+.footer-line { display: flex; gap: 8px; flex-wrap: wrap; color: #828282; font-size: 0.9rem; }

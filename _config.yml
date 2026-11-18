@@ -8,4 +8,11 @@ kramdown:
   input: GFM
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-redirect-from
 permalink: /:year/:month/:day/:title/
+# Pages in the top bar come from _data/nav.yml (per language), not from header_pages.
+header_pages: []
+exclude:
+  - _tools
+  - README.md
