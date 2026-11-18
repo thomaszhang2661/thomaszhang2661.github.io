@@ -4,8 +4,12 @@
   <div>
     <h1 class="profile-name">{{ include.name }}</h1>
     <p class="profile-tagline">{{ include.tagline }}</p>
+    {%- if p.email.size > 0 %}
+    <p class="profile-links profile-email">
+      {%- for e in p.email -%}{% unless forloop.first %} · {% endunless %}<a href="mailto:{{ e }}">{{ e }}</a>{%- endfor -%}
+    </p>
+    {%- endif %}
     <p class="profile-links">
-      {%- if p.email != "" -%}<a href="mailto:{{ p.email }}">{{ p.email }}</a> · {% endif -%}
       <a href="{{ p.github }}">GitHub</a>
       {%- if p.linkedin != "" %} · <a href="{{ p.linkedin }}">LinkedIn</a>{% endif -%}
       {%- if p.scholar != "" %} · <a href="{{ p.scholar }}">Google Scholar</a>{% endif -%}

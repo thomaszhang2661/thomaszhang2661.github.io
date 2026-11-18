@@ -3,7 +3,7 @@
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
   <div class="wrapper footer-line">
     <span class="p-name">{{ site.author | escape }}</span>
-    {%- if p.email != "" %}<span>·</span><a class="u-email" href="mailto:{{ p.email }}">{{ p.email }}</a>{% endif %}
+    {%- for e in p.email %}<span>·</span><a class="u-email" href="mailto:{{ e }}">{{ e }}</a>{% endfor %}
     <span>·</span><a href="{{ p.github }}">GitHub</a>
     {%- if p.linkedin != "" %}<span>·</span><a href="{{ p.linkedin }}">LinkedIn</a>{% endif %}
     <span>·</span><a href="{{ "/feed.xml" | relative_url }}">RSS</a>
