@@ -31,7 +31,7 @@ In 2026 I interned at ByteDance on an agent platform and at TikTok USDS on LLM a
 <ul class="cv">
   <li><span class="when">2026.05 – 2026.09</span><span class="what"><strong>Machine Learning Engineer Intern</strong>, TikTok USDS Joint Venture, San Jose<small>An LLM-agent pipeline for crash triage and repair (a debugging agent paired with a code-fix agent): 31 root causes fixed across 4 releases, daily crashes down about 90%.</small></span></li>
   <li><span class="when">2026.01 – 2026.04</span><span class="what"><strong>Research Scientist Intern</strong>, ByteDance, San Jose<small>Agent platform: hybrid keyword + vector skill retrieval (about 95% fewer context tokens, accuracy held past 1,000 skills), and a persistent to-do plugin for long multi-agent tasks.</small></span></li>
-  <li><span class="when">2021.06 – 2024.08</span><span class="what"><strong>Machine Learning Engineer</strong>, Beijing TianXuewang Education Technology<small>Handwriting recognition from 93% to 99.6% word accuracy, used in more than 100 schools; the product's first Chinese handwriting recognition.</small></span></li>
+  <li><span class="when">2021.06 – 2024.08</span><span class="what"><strong>Machine Learning Engineer</strong>, Beijing TianXuewang Education Technology Co., Ltd.<small>Handwriting recognition from 93% to 99.6% word accuracy, used in more than 100 schools; the product's first Chinese handwriting recognition.</small></span></li>
   <li><span class="when">2013 – 2018</span><span class="what"><strong>Ph.D. researcher</strong>, Institute of Physics, Chinese Academy of Sciences<small>Replaced a solver that cycled without converging with Newton's method and an analytic gradient (90% less compute time); published in Chinese Physics B.</small></span></li>
 </ul>
 
