@@ -31,7 +31,7 @@ alt_url: /
 <ul class="cv">
   <li><span class="when">2026.05 – 2026.09</span><span class="what"><strong>机器学习工程师（实习）</strong>，TikTok USDS Joint Venture，圣何塞<small>用大模型智能体自动分析和修复崩溃（调试智能体配合代码修复智能体）：4 个版本里修掉 31 个根因，每日崩溃量下降约 90%。</small></span></li>
   <li><span class="when">2026.01 – 2026.04</span><span class="what"><strong>研究科学家（实习）</strong>，字节跳动，圣何塞<small>智能体平台：关键词加向量的混合技能检索（匹配技能用的上下文 token 减少约 95%，技能数超过 1000 时准确率不降），以及让长时间多智能体任务不再卡住的持久化待办插件。</small></span></li>
-  <li><span class="when">2021.06 – 2024.08</span><span class="what"><strong>机器学习工程师</strong>，北京天学网教育科技公司<small>手写识别词准确率从 93% 提高到 99.6%，产品推广到 100 多所学校；做出产品的第一个中文手写识别功能。</small></span></li>
+  <li><span class="when">2021.06 – 2024.08</span><span class="what"><strong>机器学习工程师</strong>，北京天学网教育科技股份有限公司<small>手写识别词准确率从 93% 提高到 99.6%，产品推广到 100 多所学校；做出产品的第一个中文手写识别功能。</small></span></li>
   <li><span class="when">2013 – 2018</span><span class="what"><strong>博士研究</strong>，中国科学院物理研究所<small>原有求解器会陷入循环、无法收敛，我改用牛顿法和解析梯度，计算时间减少 90%；第一作者发表于 Chinese Physics B。</small></span></li>
 </ul>
 
