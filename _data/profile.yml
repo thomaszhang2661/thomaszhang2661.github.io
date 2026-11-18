@@ -1,7 +1,7 @@
 # Links on the home page (both languages). Leave a value empty to hide it.
-photo: ""            # e.g. /assets/photo.jpg (square, at least 320 x 320)
-email: ""            # shown as text with a mailto link
+photo: /assets/photo.jpg   # 640 x 640, metadata stripped
+email: hellothomaszhang@gmail.com
 github: https://github.com/thomaszhang2661
-linkedin: ""         # e.g. https://www.linkedin.com/in/<handle>/
-scholar: ""          # Google Scholar profile URL
-orcid: ""            # e.g. https://orcid.org/0000-0000-0000-0000
+linkedin: https://www.linkedin.com/in/jian-zhang-thomas/
+scholar: https://scholar.google.com/citations?user=adMxr48AAAAJ
+orcid: https://orcid.org/0009-0004-5969-4091
