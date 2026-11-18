@@ -10,7 +10,7 @@ redirect_from:
 
 {% include profile.html name="Jian (Thomas) Zhang" tagline="ML engineer working on LLM inference and agent systems." %}
 
-I am an M.S. student in Computer Science at Northeastern University (graduating 2027). I work on LLM inference: KV-cache quantization, attention kernels on NVIDIA Hopper, and serving with vLLM. I also build LLM agent systems.
+I work on LLM inference: KV-cache quantization, attention kernels on NVIDIA Hopper, and serving with vLLM. I also build LLM agent systems.
 
 In 2026 I interned at ByteDance on an agent platform and at TikTok USDS on LLM agents for crash triage. Before that I spent three years as a machine learning engineer at an education-technology company in Beijing, where I took handwriting recognition from 93% to 99.6% word accuracy. I hold a Ph.D. in condensed matter physics from the University of Chinese Academy of Sciences (Institute of Physics), where I worked on numerical methods for strongly correlated electrons.
 

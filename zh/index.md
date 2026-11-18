@@ -10,7 +10,7 @@ alt_url: /
 
 {% include profile.html name="张健 · Jian (Thomas) Zhang" tagline="机器学习工程师，做大模型推理和智能体系统。" %}
 
-我在美国东北大学（Northeastern University）读计算机硕士，2027 年毕业。研究方向是大模型推理：KV cache 量化、NVIDIA Hopper 上的注意力内核，以及用 vLLM 做推理服务；也做大模型智能体系统。
+我做大模型推理：KV cache 量化、NVIDIA Hopper 上的注意力内核，以及用 vLLM 做推理服务；也做大模型智能体系统。
 
 2026 年先后在字节跳动（智能体平台）和 TikTok USDS（用大模型智能体处理崩溃问题）实习。在此之前，我在北京一家教育科技公司做了三年机器学习工程师，把手写识别的词准确率从 93% 提高到 99.6%。博士毕业于中国科学院大学（中科院物理所），专业是凝聚态物理，研究强关联电子体系的数值方法。
 
