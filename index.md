@@ -24,7 +24,7 @@ In 2026 I interned at ByteDance on an agent platform and at TikTok USDS on LLM a
 
 - vLLM [#41343](https://github.com/vllm-project/vllm/issues/41343): why the FP8 KV cache silently breaks Qwen2-family reasoning models (layer 0's key bias), with measurements and workarounds.
 - vLLM [#67176](https://github.com/vllm-project/vllm/issues/67176): UltraQuant's 4-bit KV scale constant; changing 0.156 to 0.2 lowers KL divergence by 40–56% on three models at the same memory.
-- vLLM [#46461](https://github.com/vllm-project/vllm/pull/46461): a reproduction showing that TurboQuant's prefix-cache bug also affects UltraQuant.
+- vLLM [#46461](https://github.com/vllm-project/vllm/pull/46461), [#67789](https://github.com/vllm-project/vllm/pull/67789): showed that TurboQuant's cached-KV bug (wrong answers under prefix caching or chunked prefill, with no error) also affects UltraQuant, and validated the fix end to end on H200 (0/4 → 4/4 correct on both triggers).
 
 ## Experience
 

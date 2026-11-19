@@ -24,7 +24,7 @@ alt_url: /
 
 - vLLM [#41343](https://github.com/vllm-project/vllm/issues/41343)：FP8 KV cache 为什么会让 Qwen2 系推理模型悄悄失效（第 0 层的 key 偏置），附测量数据和绕过办法。
 - vLLM [#67176](https://github.com/vllm-project/vllm/issues/67176)：UltraQuant 4 位 KV 的缩放常数；从 0.156 改成 0.2，同样的显存下，三个模型的 KL 散度降低 40–56%。
-- vLLM [#46461](https://github.com/vllm-project/vllm/pull/46461)：复现证明 TurboQuant 的前缀缓存 bug 同样影响 UltraQuant。
+- vLLM [#46461](https://github.com/vllm-project/vllm/pull/46461)、[#67789](https://github.com/vllm-project/vllm/pull/67789)：证明 TurboQuant 的已缓存 KV bug（前缀缓存或分块 prefill 下答错，且不报错）同样影响 UltraQuant，并在 H200 上端到端验证了修复（两种触发方式都从 0/4 变为 4/4 答对）。
 
 ## 经历
 
